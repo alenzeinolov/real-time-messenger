@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import "./App.css";
+import Layout from "./components/Layout";
+import Message from "./components/Message";
+import MessageForm from "./components/MessageForm";
 
 function App() {
   const wsRef = useRef<WebSocket>();
@@ -16,9 +18,11 @@ function App() {
   }, []);
 
   return (
-    <div className="App">
-      <form
-        onSubmit={(e) => {
+    <Layout>
+      <MessageForm
+        message={message}
+        onChange={(e: any) => setMessage(e.target.value)}
+        onSubmit={(e: any) => {
           e.preventDefault();
           if (!message) {
             return;
@@ -28,20 +32,13 @@ function App() {
 
           setMessage("");
         }}
-      >
-        <input
-          placeholder="Say something..."
-          onChange={(e) => setMessage(e.target.value)}
-          value={message}
-        />
-        <button type="submit">Send</button>
-      </form>
+      />
       {messages.length ? (
-        messages.map((msg, idx) => <div key={idx}>{msg}</div>)
+        messages.map((msg, idx) => <Message key={idx.toString()} text={msg} />)
       ) : (
         <div>No messages yet...</div>
       )}
-    </div>
+    </Layout>
   );
 }
 
