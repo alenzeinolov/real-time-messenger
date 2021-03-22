@@ -18,6 +18,10 @@ wss.on("connection", (ws) => {
   });
 });
 
+wss.on("close", () => {
+  console.log("Client disconnected.");
+});
+
 server.listen(5000, () => {
   console.log("Listening at http://localhost:5000");
 });
